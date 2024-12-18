@@ -1,12 +1,30 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FileImage, Files } from 'lucide-react';
 
 const Index = () => {
+  useEffect(() => {
+    // (window.adsbygoogle = window.adsbygoogle || []).push({});
+  }, []);
   return (
     <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center bg-gray-50">
       <div className="w-full max-w-3xl space-y-8">
         <div className="text-center">
+        <ins className='adsbygoogle'
+          style={{ display: 'block' }}
+          data-ad-client='ca-pub-12121212'
+          data-ad-slot='12121212'
+          data-ad-format='auto' />
+        <ins className='adsbygoogle'
+          style={{ display: 'block' }}
+          data-ad-client='ca-pub-12121215'
+          data-ad-slot='12121215'
+          data-ad-format='auto' />
+        <ins className='adsbygoogle'
+          style={{ display: 'block' }}
+          data-ad-client='ca-pub-12121214'
+          data-ad-slot='12121214'
+          data-ad-format='auto' />
           <h1 className="text-4xl font-bold tracking-tight mb-2">File Converter</h1>
           <p className="text-lg text-muted-foreground">
             Choose your conversion type
