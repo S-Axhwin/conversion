@@ -7,12 +7,12 @@ interface ConversionProgressProps {
 
 const ConversionProgress = ({ progress }: ConversionProgressProps) => {
   return (
-    <div className="w-full animate-fade-up">
-      <div className="flex justify-between mb-2">
-        <span className="text-sm font-medium">Converting...</span>
-        <span className="text-sm text-muted-foreground">{progress}%</span>
+    <div className="space-y-2">
+      <div className="flex justify-between text-sm">
+        <span>Converting...</span>
+        <span>{progress}%</span>
       </div>
-      <Progress value={progress} className="h-2" />
+      <Progress value={progress} className="w-full" />
     </div>
   );
 };

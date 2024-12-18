@@ -1,48 +1,40 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { Upload, File } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { toast } from 'sonner';
+import { Upload } from 'lucide-react';
 
 interface FileUploadZoneProps {
-  onFileSelect: (file: File) => void;
+  onFileSelect: (files: File[]) => void;
 }
 
 const FileUploadZone = ({ onFileSelect }: FileUploadZoneProps) => {
-  const [isDragging, setIsDragging] = useState(false);
-
   const onDrop = useCallback((acceptedFiles: File[]) => {
     if (acceptedFiles.length > 0) {
-      onFileSelect(acceptedFiles[0]);
-      toast.success('File uploaded successfully');
+      onFileSelect(acceptedFiles);
     }
   }, [onFileSelect]);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
-    multiple: false,
+    multiple: true,
+    accept: {
+      'image/*': ['.png', '.jpg', '.jpeg', '.gif', '.webp']
+    }
   });
 
   return (
     <div
       {...getRootProps()}
-      className={cn(
-        'glass-panel hover-scale w-full p-12 rounded-xl cursor-pointer transition-all duration-200',
-        'border-2 border-dashed border-gray-200 hover:border-gray-300',
-        isDragActive && 'border-primary bg-primary/5',
-        'flex flex-col items-center justify-center gap-4'
-      )}
+      className={`p-12 rounded-xl text-center cursor-pointer transition-all duration-200 
+        ${isDragActive ? 'border-primary border-2' : 'border-2 border-dashed border-gray-300'}`}
     >
       <input {...getInputProps()} />
-      <div className="w-16 h-16 rounded-full bg-secondary flex items-center justify-center">
-        <Upload className="w-8 h-8 text-primary" />
-      </div>
-      <div className="text-center">
-        <h3 className="text-lg font-semibold mb-2">Drop your file here</h3>
-        <p className="text-sm text-muted-foreground">
-          or click to select a file
-        </p>
-      </div>
+      <Upload className="w-12 h-12 mx-auto mb-4 text-gray-400" />
+      <p className="text-lg font-medium mb-2">
+        {isDragActive ? 'Drop your images here' : 'Drop your images here'}
+      </p>
+      <p className="text-sm text-muted-foreground">
+        or click to select multiple images
+      </p>
     </div>
   );
 };

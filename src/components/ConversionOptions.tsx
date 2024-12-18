@@ -1,11 +1,5 @@
 import React from 'react';
-import { Button } from '@/components/ui/button';
-import { FileType } from 'lucide-react';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { FileIcon } from 'lucide-react';
 
 interface ConversionOptionsProps {
   onFormatSelect: (format: string) => void;
@@ -13,44 +7,37 @@ interface ConversionOptionsProps {
   currentFormat: string;
 }
 
-const formats = [
-  { id: 'pdf', label: 'PDF' },
-  { id: 'docx', label: 'Word' },
-  { id: 'jpg', label: 'JPG' },
-  { id: 'png', label: 'PNG' },
-];
-
 const ConversionOptions = ({ onFormatSelect, selectedFormat, currentFormat }: ConversionOptionsProps) => {
+  const formats = ['pdf', 'docx', 'jpg', 'png'];
+
   return (
-    <div className="animate-fade-up">
-      <h3 className="text-lg font-semibold mb-4">Select output format</h3>
+    <div className="space-y-4">
+      <label className="block text-sm font-medium text-gray-700">
+        Select output format
+      </label>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {formats.map((format) => {
-          const isDisabled = format.id.toLowerCase() === currentFormat.toLowerCase();
-          const button = (
-            <Button
-              key={format.id}
-              variant={selectedFormat === format.id ? "default" : "outline"}
-              className="hover-scale h-24 flex flex-col items-center justify-center gap-2"
-              onClick={() => onFormatSelect(format.id)}
+          const isDisabled = format.toLowerCase() === currentFormat.toLowerCase();
+          const isSelected = format === selectedFormat;
+          
+          return (
+            <button
+              key={format}
+              onClick={() => !isDisabled && onFormatSelect(format)}
               disabled={isDisabled}
+              className={`
+                p-4 rounded-lg border transition-all duration-200 flex flex-col items-center justify-center space-y-2
+                ${isDisabled ? 'opacity-50 cursor-not-allowed bg-gray-100' : 'hover:border-primary cursor-pointer'}
+                ${isSelected ? 'bg-black text-white' : 'bg-white'}
+              `}
             >
-              <FileType className="w-6 h-6" />
-              <span>{format.label}</span>
-            </Button>
-          );
-
-          return isDisabled ? (
-            <Tooltip key={format.id}>
-              <TooltipTrigger asChild>
-                {button}
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>The uploaded file is already in {format.label} format</p>
-              </TooltipContent>
-            </Tooltip>
-          ) : button;
-        })}
+              <FileIcon className="w-6 h-6" />
+              <span className="text-sm font-medium">
+                {format === 'docx' ? 'Word' : format.toUpperCase()}
+              </span>
+            </button>
+          )}
+        )}
       </div>
     </div>
   );
